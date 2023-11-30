@@ -1,0 +1,15 @@
+Create boilerplate to link both CSS and JS
+
+create div ids to include divs to represent the game board
+
+design 3x3 board to be centered in the middle of the screen
+
+cache elements 
+
+manipulate the elements to alternate X's and O's for each turn
+
+Make 2 out of 3 rounds
+
+Add in voice memos for winning and for losing
+
+create a reset button to play a new game
