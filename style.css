@@ -1,0 +1,44 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    font-size: 4vmin;
+    color: dark gray;
+    font-size: 3vmin;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(3, 10vmin);
+    grid-template-rows: repeat(3, 10vmin);
+    gap: 1vmin;
+    margin-bottom: 4vmin;
+}
+
+#board > div {
+    border: solid grey;
+}
+
+button {
+    padding: 2vmin;
+    font-size: 2vmin;
+    border-radius: 4vmin;
+    border: .4vmin solid gray;
+    color: gray;
+}
+
+button:hover {
+    color: white;
+    background-color: gray;
+}
