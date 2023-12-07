@@ -13,6 +13,7 @@ body {
     background-image: url(Pictures/Bunny.gif);
     background-size: cover;
     background-repeat: no-repeat;
+    animation: fadeIn 5s;
 }
 
 header {
@@ -25,18 +26,38 @@ h2 {
     font-size: 4vmin;
 }
 
+h3 {
+    color: gold;
+    font-size: 4vmin;
+}
+
 #board {
     display: grid;
     grid-template-columns: repeat(3, 15vmin);
     grid-template-rows: repeat(3, 15vmin);
-    margin-bottom: 4vmin;
-    
+    margin-bottom: 20vmin;
+    color: white;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 #board > div {
     border: solid greenyellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: .5vmin;
+    transition: background-color ease-in-out 0.1s;
 }
+
+#board > div:hover {
+    background-color: rgba(255,255,255,0.3);
+    cursor: pointer;
+}
+
 
 button {
     padding: 2vmin;
@@ -52,9 +73,17 @@ button:hover {
     background-color: greenyellow;
 }
 
+
 .fireworks {
+    display: block;
     margin-top: 4px;
     height: 800px;
-    width: 500px;
+    width: 1200px;
     background-image: url("https://gray-wsaw-prod.cdn.arcpublishing.com/resizer/SGCzQYZAY59dsnULg1B_MEPti8o=/800x450/smart/filters:quality(70)/cloudfront-us-east-1.images.arcpublishing.com/gray/XSTFC2ESZZCFRNI25F74VZV5WY.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.hidden{
+    display: none !important;
 }
