@@ -18,21 +18,40 @@ const gs = document.getElementById("board");
 const fireworks = document.createElement("div");
 fireworks.classList.add("fireworks");
 gameBoard.insertBefore(fireworks, gs);
-// document.body.appendChild(fireworks)
+const winConditions = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
+//if the first 3 strings are not spaces and are all the same, then there's a win
+let options = ["", "", "", "", "", "", "", "", ""];
+let currentPlayer = "X";
+let running = false;
+
 /*----- event listeners -----*/
+//DON'T INVOKE CALLBACK AS IN init()!!! THIS DOESN'T PASS THE CALLBACK!!! WHAT IT DOES IS IT PASS WHAT THE INIT() RETURN WHICH IS NOTHING. YOU JUST WANT TO PASS A REFERENCE TO THE FUNCTION SO THAT IT CAN BE CALLED BACK TO AT A LATER TIME.
+playAgainBtn.addEventListener("click", init);
 
 /*----- functions -----*/
 init();
 function init() {
   turn = 1;
   board = [
-    [0, 0, 0], //col 0
-    [0, 0, 0], //col 1
-    [0, 0, 0], //col 2
-
-    //r0 r1 r2
+    [0, 0, 0], //r0
+    [0, 0, 0], //r1
+    [0, 0, 0], //r2
+    //c0 c1 c2
   ];
+  gs.childNodes.forEach((cell) => (cell.innerHTML = ""));
+
   winner = null;
+  running = true;
   render();
 }
 // this function transfers the state of our application to the DOM
@@ -43,9 +62,43 @@ function render() {
 }
 
 function handleTurn(event) {
-  event.target.innerHTML = turn == 1 ? "X" : "O";
-  turn = turn == 1 ? -1 : 1;
-  render();
+  const turnPos = `${event.target.id.replace("c", "")}`.split("r");
+
+  if (board[turnPos[1]][turnPos[0]] == 0) {
+    board[turnPos[1]][turnPos[0]] = turn;
+
+    currentPlayer = turn == 1 ? "X" : "O";
+
+    event.target.innerHTML = currentPlayer;
+    event.target.style.color = COLORS[turn];
+
+    // toggle the turn: Use turn == 1 ? -1 : 1; or turn *= = -1;
+
+    if (checkWinner()) {
+      winner = turn;
+      running = false;
+      console.log("WIN");
+    } else if (checkTie()) {
+      winner = "T";
+      running = false;
+      console.log("TIE");
+    } else {
+      turn *= -1;
+    }
+    render();
+  }
+}
+
+function checkWinner() {
+  return winConditions.some((combination) => {
+    return combination.every((index) => {
+      return board.flat()[index] == turn;
+    });
+  });
+}
+
+function checkTie() {
+  return board.flat().every((item) => item != 0);
 }
 
 function renderBoard() {
@@ -53,23 +106,31 @@ function renderBoard() {
     colArr.forEach(function (rowVal, rowIdx) {
       const cellId = `c${colIdx}r${rowIdx}`;
       const cellEl = document.getElementById(cellId);
-      cellEl.style.backgroundColor = COLORS[rowVal];
-      cellEl.addEventListener("click", handleTurn);
+      //Make click event for the moves made on the board
+      cellEl.addEventListener("click", handleTurn, { once: true });
     });
   });
 }
 
+function tieGame() {
+  messageEl.innerText = "It's a Tie!!!";
+  secMessageEl.innerHTML = null;
+}
+
+function winsGame() {
+  messageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
+    winner
+  ].toUpperCase()}</span> Wins!`;
+  secMessageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
+    winner
+  ].toUpperCase()}</span> CONGRATULATIONS YYYEEEEAAAA BUDDY!!!`;
+}
+
 function renderMessage() {
   if (winner === "T") {
-    messageEl.innerText = "It's a Tie!!!";
-    secMessageEl.innerHTML = null;
-  } else if (winner) {
-    messageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
-      winner
-    ].toUpperCase()}</span> Wins!`;
-    secMessageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
-      winner
-    ].toUpperCase()}</span> CONGRATULATIONS YYYEEEEAAAA BUDDY!!!`;
+    tieGame();
+  } else if (winner == 1 || winner == -1) {
+    winsGame();
   } else {
     messageEl.innerHTML = `<span style="color:${COLORS[turn]}">${COLORS[
       turn
@@ -78,21 +139,17 @@ function renderMessage() {
   }
 }
 
-function restartGame() {
-  init();
-}
-
 function renderControls() {
   if (winner == 1 || winner == -1) {
     setTimeout(() => {
       playAgainBtn.classList.remove("hidden");
       fireworks.classList.remove("hidden");
-
       gs.classList.add("hidden");
     }, 2000);
   } else if (winner == "T") {
-    playAgainBtn.classList.add("hidden");
+    playAgainBtn.classList.remove("hidden");
     fireworks.classList.remove("hidden");
+    gs.classList.add("hidden");
   } else {
     playAgainBtn.classList.add("hidden");
     fireworks.classList.add("hidden");
