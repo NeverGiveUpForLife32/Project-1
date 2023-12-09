@@ -54,15 +54,10 @@ function init() {
   running = true;
   render();
 }
-// this function transfers the state of our application to the DOM
-function render() {
-  renderBoard();
-  renderMessage();
-  renderControls();
-}
 
 function handleTurn(event) {
   const turnPos = `${event.target.id.replace("c", "")}`.split("r");
+  console.log();
 
   if (board[turnPos[1]][turnPos[0]] == 0) {
     board[turnPos[1]][turnPos[0]] = turn;
@@ -72,16 +67,26 @@ function handleTurn(event) {
     event.target.innerHTML = currentPlayer;
     event.target.style.color = COLORS[turn];
 
-    // toggle the turn: Use turn == 1 ? -1 : 1; or turn *= = -1;
+    //Within the checkWinner function and within the winConditions of the combinations, return every chosen postion,
+    //
+    function checkWinner() {
+      return winConditions.some((combination) => {
+        return combination.every((index) => {
+          return board.flat()[index] == turn;
+        });
+      });
+    }
 
+    // toggle the turn: Use turn == 1 ? -1 : 1; or turn *= = -1;
+    //Within the checkWinner function, if the winner is one of the players, stop running.
+    //Within the cbeckTie function, if its a tie game, stop running.
+    //Else toggle players turn
     if (checkWinner()) {
       winner = turn;
       running = false;
-      console.log("WIN");
     } else if (checkTie()) {
       winner = "T";
       running = false;
-      console.log("TIE");
     } else {
       turn *= -1;
     }
@@ -89,16 +94,17 @@ function handleTurn(event) {
   }
 }
 
-function checkWinner() {
-  return winConditions.some((combination) => {
-    return combination.every((index) => {
-      return board.flat()[index] == turn;
-    });
-  });
-}
-
+//The array flat method creates a new array with all of the sub arrays elements
+//concatonated (linked) to it.
+//
 function checkTie() {
   return board.flat().every((item) => item != 0);
+}
+// this function transfers the state of our application to the DOM
+function render() {
+  renderBoard();
+  renderMessage();
+  renderControls();
 }
 
 function renderBoard() {
@@ -112,25 +118,17 @@ function renderBoard() {
   });
 }
 
-function tieGame() {
-  messageEl.innerText = "It's a Tie!!!";
-  secMessageEl.innerHTML = null;
-}
-
-function winsGame() {
-  messageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
-    winner
-  ].toUpperCase()}</span> Wins!`;
-  secMessageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
-    winner
-  ].toUpperCase()}</span> CONGRATULATIONS YYYEEEEAAAA BUDDY!!!`;
-}
-
 function renderMessage() {
   if (winner === "T") {
-    tieGame();
+    messageEl.innerText = "It's a Tie!!!";
+    secMessageEl.innerHTML = null;
   } else if (winner == 1 || winner == -1) {
-    winsGame();
+    messageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
+      winner
+    ].toUpperCase()}</span> Wins!`;
+    secMessageEl.innerHTML = `<span style="color:${COLORS[winner]}">${COLORS[
+      winner
+    ].toUpperCase()}</span> CONGRATULATIONS YYYEEEEAAAA BUDDY!!!`;
   } else {
     messageEl.innerHTML = `<span style="color:${COLORS[turn]}">${COLORS[
       turn
@@ -142,15 +140,26 @@ function renderMessage() {
 function renderControls() {
   if (winner == 1 || winner == -1) {
     setTimeout(() => {
+      //originally playAgainBtn.style.visibility = visible
+      //originally fireworks.style.visibility = visible
+      //originally gs.style.display = none
       playAgainBtn.classList.remove("hidden");
       fireworks.classList.remove("hidden");
       gs.classList.add("hidden");
     }, 2000);
   } else if (winner == "T") {
-    playAgainBtn.classList.remove("hidden");
-    fireworks.classList.remove("hidden");
-    gs.classList.add("hidden");
+    setTimeout(() => {
+      //originally playAgainBtn.style.visibility = visible
+      //originally fireworks.style.visibility = visible
+      //originally gs.style.display = none
+      playAgainBtn.classList.remove("hidden");
+      fireworks.classList.remove("hidden");
+      gs.classList.add("hidden");
+    }, 2000);
   } else {
+    //originally playAgainBtn.style.visibility = hidden
+    //originally fireworks.style.visibility = hidden
+    //originally gs.style.visibility = visible
     playAgainBtn.classList.add("hidden");
     fireworks.classList.add("hidden");
     gs.classList.remove("hidden");
