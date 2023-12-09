@@ -1,15 +1,34 @@
-Create boilerplate to link both CSS and JS
+pseudo-code 
 
-create div ids to include divs to represent the game board
+// create layout of the board with 3x3 grid
 
-design 3x3 board to be centered in the middle of the screen
+// define all variables such as player 1 and player 2 and distinguish color both
 
-cache elements 
+// cache/create all necessary elements and assign them
+    //update with .parentNode if need be
 
-manipulate the elements to alternate X's and O's for each turn
+// create a win condition array for the game
+    // create win condition functionality 
+    // create loop to iterate over the win condition array
 
-Make 2 out of 3 rounds
+// add event listeners to restart the game and to trigger events when clicked
+    // add { once: true } to listener to stop triggering the event after clicked
 
-Add in voice memos for winning and for losing
+// create function to initialize the game
 
-create a reset button to play a new game
+// When section on board is clicked, add functions to make the representation of the player apper on board position(X or O)
+
+// Add a board running variable and use throough code to represent true or false
+
+//Add ternory operators to as an alternative to if...else statements to add dry code
+
+//Add render if...else statements to represent different outputs for different outcomes
+
+//Add set timeout functions if needed
+
+//Use CSS !important to overiding purposes
+
+//create functions for checking for wins or ties
+    //create loop for results of each check that's made
+
+//activate restart game function

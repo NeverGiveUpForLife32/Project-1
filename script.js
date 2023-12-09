@@ -57,7 +57,6 @@ function init() {
 
 function handleTurn(event) {
   const turnPos = `${event.target.id.replace("c", "")}`.split("r");
-  console.log();
 
   if (board[turnPos[1]][turnPos[0]] == 0) {
     board[turnPos[1]][turnPos[0]] = turn;
