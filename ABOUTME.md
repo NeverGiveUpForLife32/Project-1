@@ -1,2 +1,38 @@
-I’m currently learning how to create a game entitled "Tic-Tac-Toe"
+Tic-Tac-Toe Game
+
 Here is my game wireframe. ![Tic-Tac-Toe]((https://postimg.cc/qgvGP4MD))
+
+pseudo-code 
+
+// create layout of the board with 3x3 grid
+
+// define all variables such as player 1 and player 2 and distinguish color both
+
+// cache/create all necessary elements and assign them
+    //update with .parentNode if need be
+
+// create a win condition array for the game
+    // create win condition functionality 
+    // create loop to iterate over the win condition array
+
+// add event listeners to restart the game and to trigger events when clicked
+    // add { once: true } to listener to stop triggering the event after clicked
+
+// create function to initialize the game
+
+// When section on board is clicked, add functions to make the representation of the player apper on board position(X or O)
+
+// Add a board running variable and use throough code to represent true or false
+
+//Add ternory operators to as an alternative to if...else statements to add dry code
+
+//Add render if...else statements to represent different outputs for different outcomes
+
+//Add set timeout functions if needed
+
+//Use CSS !important to overiding purposes
+
+//create functions for checking for wins or ties
+    //create loop for results of each check that's made
+
+//activate restart game function
